@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MobileAIEnrichment.Views.AzureSearchView"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:vm="clr-namespace:MobileAIEnrichment.ViewModels"
+             ios:Page.UseSafeArea="True">
+
+    <ContentPage.BindingContext>
+        <vm:AzureSearchViewModel/>
+    </ContentPage.BindingContext>
+
+    <ContentPage.Content>
+        <StackLayout Margin="20">
+            <SearchBar x:Name="searchBar"
+                       Placeholder="Enter a term..."
+                       SearchCommand="{Binding AzureSearchCommand}"
+                       SearchCommandParameter="{Binding Source={x:Reference searchBar}, Path=Text}"/>
+
+            <ActivityIndicator Color="Blue"
+                               IsVisible="{Binding IsBusy}"
+                               IsRunning="{Binding IsBusy}"
+                               IsEnabled="{Binding IsBusy}"/>
+
+            <CollectionView ItemsSource="{Binding AzureSearchResults}"
+                            SelectionMode="Single"
+                            x:Name="collectionView">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Padding="10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <Label Grid.Row="0"
+                                   Text="{Binding MetadataStorageName, StringFormat='File: {0}'}"
+                                   FontAttributes="Bold"
+                                   TextColor="Blue"/>
+
+                            <Label Grid.Row="1"
+                                   Text="{Binding SearchScore, StringFormat='Score: {0}'}"
+                                   FontAttributes="Bold"
+                                   TextColor="Blue"/>
+
+                            <Label Grid.Row="2"
+                                   Text="{Binding PeopleStr, StringFormat='People: {0}'}"
+                                   FontAttributes="Bold"
+                                   TextColor="Blue"/>
+
+                            <Label Grid.Row="3"
+                                   Text="{Binding ImageTagsStr, StringFormat='ImageTags: {0}'}"
+                                   FontAttributes="Bold"
+                                   TextColor="Blue"/>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
