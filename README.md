@@ -1,3 +1,3 @@
 # MobileAIEnrichment
 
-Demo GitHubActions
+Demo GitHubActions + CATEC
